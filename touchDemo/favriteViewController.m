@@ -30,15 +30,11 @@
 
 -(void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     UITouch *touch = touches.anyObject;
-    UIBezierPath *path = [UIBezierPath bezierPath];
-    
     
     NSLog(@"%.2f,%2f", touch.force, touch.maximumPossibleForce);
-    //压力系数为半径 触摸点为圆心
-    [path addArcWithCenter:[touch locationInView:self] radius:touch.force * 25 startAngle:0 endAngle:2 * M_PI clockwise:YES];
     
-//    CGFloat radio = touch.force / touch.maximumPossibleForce;
-//    self.view.backgroundColor = [UIColor colorWithRed:radio green:radio blue:radio alpha:1];
+    CGFloat radio = touch.force / touch.maximumPossibleForce;
+    self.view.backgroundColor = [UIColor colorWithRed:radio green:radio blue:radio alpha:1];
 }
 
 /*

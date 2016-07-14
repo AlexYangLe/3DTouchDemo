@@ -42,13 +42,34 @@
     NSArray *array = @[favriteVC, bookTabVC, contactVC];
     mainVC.tabBarController.viewControllers = array;
     
+    //如果app不在后台已杀死，则处理通过快捷选项标签进入app的逻辑在此处
+    UIApplicationShortcutItem *shortcutItem = [launchOptions valueForKey:UIApplicationLaunchOptionsShortcutItemKey];
+    
+    if(shortcutItem){
+        if([shortcutItem.type isEqualToString:@"favrite"])
+        {
+            NSLog(@"就是这🐑任性");
+            [mainNaVC pushViewController:favriteVC animated:NO];
+        } else if ([shortcutItem.type isEqualToString:@"book"])
+        {
+            NSLog(@"猴赛雷");
+            [mainNaVC pushViewController:bookTabVC animated:NO];
+        } else {
+            NSLog(@"孙子来电话了");
+            [mainNaVC pushViewController:contactVC animated:NO];
+            
+        }
+        return NO;
+    }
+    
     [self.window makeKeyWindow];
     return YES;
     
-//    UIApplicationShortcutItem *shortcutItem = [launchOptions valueForKey:UIApplicationLaunchOptionsShortcutItemKey];
+
 
 }
 
+//如果app在后台，通过快捷选项标签进入app时在此处调用
 -(void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler{
 //    UITabBarController *tabBarVC = (UITabBarController *)self.window.rootViewController.navigationController.tabBarController;
     UINavigationController *mainNaVC = self.window.rootViewController;
@@ -89,6 +110,9 @@
 //        mainNaVC.tabBarController.selectedIndex = 2;
         [mainNaVC pushViewController:contactVC animated:NO];
         
+    }
+    if(completionHandler){
+        completionHandler(YES);
     }
 
 }
